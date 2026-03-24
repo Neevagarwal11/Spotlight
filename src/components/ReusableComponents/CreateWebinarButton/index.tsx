@@ -1,0 +1,64 @@
+'use client'
+import { Dialog ,DialogContent,DialogTrigger,DialogTitle } from '@/components/ui/dialog'
+import { useWebinarStore } from '@/store/useWebinarStore'
+import { PlusIcon } from 'lucide-react'
+import React, { useState } from 'react'
+import BasicInfoStep from '../CreateWebinarButton/BasicInfoStep'
+import MultiStepForm from '../CreateWebinarButton/MultiStepForm'
+
+type Props = {
+
+}
+
+const CreateWebinarButton = (props: Props) => {
+
+    const {isModalOpen , setModalOpen ,isComplete , setIsComplete} = useWebinarStore();
+
+    const steps = [
+        {
+            id: 'basicInfo',
+            title: "Basic Information",
+            description : "Please fill out the standard info needed to your webinar.",
+            component : <BasicInfoStep/> 
+        }
+    ]
+
+    const [webinarLink , setWebinarLink] = useState('')
+
+    const handelComplete = (webinarId:string) => {
+        setIsComplete(true);
+        setWebinarLink(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/live-webinar/${webinarId}`
+        )
+    }
+
+  return (
+
+    <Dialog open={isModalOpen} onOpenChange={setModalOpen}>
+        <DialogTrigger asChild>
+            <button className='rounded-xl flex gap-2 items-center hover:cursor-pointer px-4 py-2 border border-border bg-primary/10 backdrop-blur-sm text-sm font-normal text-primary hover:bg-primary-20' onClick={()=> setModalOpen(true)}>
+                <PlusIcon/>
+                Create Webinar
+            </button>
+        </DialogTrigger>
+        <DialogContent className='sm:max-w-[900px] p-0 bg-transparent border-none'>
+            {isComplete? <div className='bg-muted text-primary rounded-lg overflow-hidden'>
+                <DialogTitle className='sr-only'>Webinar Created</DialogTitle>
+                {/* <SuccessStep></SuccessStep> */}
+            </div> : 
+                <>
+                    <DialogTitle className='sr-only'>Create Webinar</DialogTitle>
+                    <MultiStepForm
+                        steps={steps}
+                        onComplete = {handelComplete}
+                     />
+                </>
+            }
+        </DialogContent>
+
+    </Dialog>
+
+  )
+}
+
+export default CreateWebinarButton

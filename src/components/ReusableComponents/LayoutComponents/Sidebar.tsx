@@ -1,5 +1,5 @@
 'use client'
-import { Tooltip, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { sidebarData } from '@/lib/data'
 import { UserButton } from '@clerk/nextjs'
 import { Cone, SpotlightIcon } from 'lucide-react'
@@ -26,9 +26,11 @@ const Sidebar = (props: Props) => {
                         <TooltipTrigger asChild>
                             <Link href={item.link} className={`flex items-center gap-2 cursor-pointer rounded-lg p-2 ${pathname.includes(item.link) ? 'iconBackground' : ''}`}>
                             <item.icon className={`w-4 h-4 ${pathname.includes(item.link) ? '' : 'opacity-80' }`} />
-
                             </Link>
                         </TooltipTrigger>
+                        <TooltipContent side='right'>
+                            <span className='text-sm'>{item.title}</span>
+                        </TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
             ))}
