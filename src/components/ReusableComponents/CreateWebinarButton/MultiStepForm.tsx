@@ -1,10 +1,14 @@
 import { useWebinarStore } from '@/store/useWebinarStore'
 import React, { useState } from 'react'
 import {AnimatePresence, motion} from 'framer-motion'
-import { AlertCircle, Check, Loader2 } from 'lucide-react'
+import { AlertCircle, Check, ChevronRight, Loader2 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { createWebinar } from '@/actions/webinar'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
+import { se } from 'date-fns/locale'
 
 type Step ={
     id:string
@@ -20,6 +24,7 @@ type Props = {
 
 const MultiStepForm = ({steps , onComplete} : Props) => {
     const{formData, validateStep,isSubmitting,setSubmitting,setModalOpen} = useWebinarStore();
+    const router = useRouter()
 
     const [completedSteps, setCompletedSteps] = useState<string[]>([])
     const [currentStepIndex, setCurrentStepIndex] = useState(0)
@@ -55,10 +60,32 @@ const MultiStepForm = ({steps , onComplete} : Props) => {
       if(isLastStep){
         try{
           setSubmitting(true)
-          // const result = 
+          const result =   await createWebinar(formData)
+          if(result.status === 200 && result.webinarId){
+            toast.success('Your webinar has been created successfully.')
+            onComplete(result.webinarId)
+          }else{
+            toast.error(
+              result.message || "Your webinar has not been created successfully"
+            )
+            setValidationError(result.message)
+          }
 
-        }catch(error)
+          router.refresh()
+
+        }catch(error){
+          console.log('Error creating webinar:', error)
+          toast.error("Failed to create webinar. Please try again.")
+          setValidationError("Failed to create webinar. Please try again.")
+        } finally{
+          setSubmitting(false) 
+        }
+
+
+      }else{
+        setCurrentStepIndex(currentStepIndex + 1)
       }
+
 
 
     }
@@ -69,11 +96,11 @@ const MultiStepForm = ({steps , onComplete} : Props) => {
 
 
   return (
-    <div className='flex flex-col justify-center items-center bg-[#27272A]/20 border border-border rounded-3xl overflow-hidden max-w-6xl mx-auto backdrop-blur-[106px] '>
+    <div className='flex flex-col justify-center items-center bg-[#27272A]/20 border border-border rounded-3xl overflow-hidden max-w-6xl mx-auto backdrop-blur-[80px] '>
 
       <div className='flex items-center justify-start'>
 
-        <div className='w-full md:w-1/3 p-6'>
+        <div className='w-full md:w-2/3 p-6'>
 
         <div className='space-y-6'>
           {steps.map((step,index) => {
@@ -144,7 +171,7 @@ const MultiStepForm = ({steps , onComplete} : Props) => {
         </div>
         </div>
 
-        <Separator orientation='verticle' className='data-[orientation=verticle]:h-1/2' />
+        <Separator orientation='vertical' className='data-[orientation=vertical]:h-1/2' />
         <div className='w-full md:w-2/3'>
           <AnimatePresence mode='wait'>
             <motion.div
@@ -164,7 +191,7 @@ const MultiStepForm = ({steps , onComplete} : Props) => {
 
               {validationError && (
                 <div className='mt-4 p-3 bg-red-900/30 border border-red-800 rounded-md flex items-start gap-2 text-red-300'>
-                  <AlertCircle className='h-5 w-5 mt-0.5 flex-shrink-0' />
+                  <AlertCircle className='h-5 w-5 mt-0.5 shrink-0' />
                   <p>{validationError}</p> 
                 </div>
               )}
@@ -198,7 +225,7 @@ const MultiStepForm = ({steps , onComplete} : Props) => {
           ) : (
               'Next'
             )}
-
+            {!isLastStep && <ChevronRight className='ml-1 h-4 w-4' />}
         </Button>
 
 
