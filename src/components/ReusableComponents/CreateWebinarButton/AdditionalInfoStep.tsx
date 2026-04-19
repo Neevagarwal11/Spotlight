@@ -47,10 +47,12 @@ const AdditionalInfoStep = () => {
                 <p className='text-sm text-gray-400'>Turn it on to offer discounts to your viewers</p>
                 </div>
                 <Switch
-                    id='coupon-enabled'
+                    id="coupon-enabled"
                     checked={couponEnabled || false}
                     onCheckedChange={handleToggleCoupon}
-                />
+                    />
+
+                    
             </div>
 
             {couponEnabled && (
@@ -79,8 +81,6 @@ const AdditionalInfoStep = () => {
 
 
         </div>
-
-
     </div>
 
   )

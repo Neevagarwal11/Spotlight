@@ -89,10 +89,10 @@ const CTAStep = () => {
             <Tabs defaultValue={CtaTypeEnum.BOOK_A_CALL} className='w-full'>
 
                 <TabsList className='w-full bg-transparent'>
-                    <TabsTrigger className='w-1/2 data-[state=active]:bg-background/50! border border-border' value={CtaTypeEnum.BOOK_A_CALL} onClick={() => handleSelectCTAType(CtaTypeEnum.BOOK_A_CALL)}>
+                    <TabsTrigger className='w-1/2 data-[state=inactive]:bg-transparent data-[state=inactive]:text-muted-foreground data-[state=active]:bg-background/50! ' value={CtaTypeEnum.BOOK_A_CALL} onClick={() => handleSelectCTAType(CtaTypeEnum.BOOK_A_CALL)}>
                         Book a Call
                     </TabsTrigger>
-                    <TabsTrigger value={CtaTypeEnum.BUY_NOW} className='w-1/2' onClick={() => handleSelectCTAType(CtaTypeEnum.BUY_NOW)} >
+                    <TabsTrigger value={CtaTypeEnum.BUY_NOW} className='w-1/2  data-[state=active]:bg-background/50!' onClick={() => handleSelectCTAType(CtaTypeEnum.BUY_NOW)} >
                         Buy Now
                     </TabsTrigger>
                 </TabsList>

@@ -60,7 +60,7 @@ const BasicInfoStep = (props: Props) => {
           name ="webinarName"
           value={webinarName || ""}
           onChange={handleChange}
-          placeholder="Introduction to Mochi"
+          placeholder="Introduction to Spotlight"
           className={cn('bg-background/50 border border-input', errors.webinarName && 'border-red-400 focus-visible:ring-red-400')}
         />
 
@@ -112,7 +112,7 @@ const BasicInfoStep = (props: Props) => {
         </div>
 
           <div className='space-y-2'>
-            <Label className={errors.time ? 'text-red-400' : '' }>
+            <Label className={errors.timeFormat ? 'text-red-400' : '' }>
               Webinar Time <span className='text-red-400'>*</span>
             </Label>
 
@@ -121,6 +121,7 @@ const BasicInfoStep = (props: Props) => {
                 <Clock className='absolute left-3 top-2 h-4 w-4 text-foreground' />
                 <Input
                   name='time'
+                  id='time'
                   value={time || ''}
                   onChange={handleChange}
                   placeholder='12:00'

@@ -194,13 +194,13 @@
   background: 
     radial-gradient(
       80.86% 125% at 50% 45%,
-      var(--background-bg-accent-secondary-10, rgba(9,9,11,0.08)) 0%,
-      var(--background-bg-accent-secondary-100, rgba(135,49,255,0.75)) 100%
+      rgba(9,9,11,0.9) 0%,
+      rgba(135,49,255,1) 100%
     ),
     linear-gradient(
       180deg,
-      var(--background-bg-background, rgba(9,9,11,0.08)) 60%,
-      var(--background-bg-accent-secondary-100, rgba(135,49,255,0.5)) 100%
+      rgba(9,9,11,0.95) 60%,
+      rgba(135,49,255,0.9) 100%
     );
 }
 

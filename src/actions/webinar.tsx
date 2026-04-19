@@ -1,5 +1,4 @@
 'use server'
-
 import { WebinarFormState } from "@/store/useWebinarStore"
 import { onAuthenticateuser } from "./auth"
 import { prismaClient } from "@/lib/prismaClient"
@@ -75,6 +74,7 @@ export const createWebinar = async(formData:WebinarFormState) => {
                 startTime: combinedDateTime,
                 tags: formData.cta.tags || [],
                 ctaLabel: formData.cta.ctaLabel,
+                ctaType:formData.cta.ctaType,
                 aiAgentId: formData.cta.aiAgent || null,
                 priceId: formData.cta.priceId || null,
                 lockChat : formData.additionalInfo.lockChat || false,
@@ -103,4 +103,26 @@ export const createWebinar = async(formData:WebinarFormState) => {
     }
 
 
+}
+
+
+export const getWebinarByPresenterId = async (presenterId:string) => {
+    try{
+        const webinar = await prismaClient.webinar.findMany({
+            where: {presenterId},
+            include: {
+                presenter:{
+                    select:{
+                        name:true,
+                        stripeConnectId:true,
+                        id:true,
+                    },
+                },
+            },
+        })
+        return webinar
+    }catch(error){
+        console.log("Error fetching webinar..", error)
+        return[]
+    }
 }

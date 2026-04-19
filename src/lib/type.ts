@@ -30,7 +30,7 @@ export const validateBasicInfo = (data: {
     if(!data.time?.trim()){
         errors.time = "Time is required."
     }else{
-        const timeRegex = /^(0?[1-9] | 1[0-1]):[0-1][0-9]$/
+        const timeRegex = /^(0?[1-9]|1[0-2]):([0-5]\d)$/
         if(!timeRegex.test(data.time)){
             errors.time = "Time must be in the format HH:MM (eg. ,10:30)"
         }
