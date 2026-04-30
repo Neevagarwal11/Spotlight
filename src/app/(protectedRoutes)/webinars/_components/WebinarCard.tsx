@@ -40,7 +40,7 @@ const WebinarCard = ({webinar} : Props) => {
                 </div>
             </Link>
 
-            <Link href={`/webinar/${webinar?.id}/pipeline`} className='flex px-4 py-2 rounded-md border-[0.5px] border-border bg-secondary' >
+            <Link href={`/webinars/${webinar?.id}/pipeline`} className='flex px-4 py-2 rounded-md border-[0.5px] border-border bg-secondary' >
             <Library className='w-4 h-4' />
             </Link>
         </div>
