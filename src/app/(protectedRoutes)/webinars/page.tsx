@@ -9,6 +9,8 @@ import React from 'react'
 import WebinarCard from './_components/WebinarCard'
 import { Webinar } from '@prisma/client'
 
+export const dynamic = "force-dynamic";
+
 const page = async() => {
 
     const checkUser = await onAuthenticateuser()
@@ -60,4 +62,3 @@ const page = async() => {
 
 export default page
 
-export const dynamic = "force-dynamic";

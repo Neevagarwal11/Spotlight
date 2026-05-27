@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Library, Network, Webcam } from 'lucide-react'
 import React from 'react'
 import { leadData } from './_tests_/data'
-
+export const dynamic = "force-dynamic";
 const page = () => {
   return (
 
@@ -51,4 +51,3 @@ const page = () => {
 
 export default page
 
-export const dynamic = "force-dynamic";

@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { potentialCustomers } from '@/lib/data'
 import UserInfoCard from '@/components/ReusableComponents/UserInfoCard'
 
+export const dynamic = "force-dynamic";
 const page = () => {
   return (
 
@@ -64,4 +65,3 @@ const page = () => {
 
 export default page
 
-export const dynamic = "force-dynamic";

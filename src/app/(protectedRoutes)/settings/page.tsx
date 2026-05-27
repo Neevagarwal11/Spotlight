@@ -9,7 +9,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import React from "react";
-
+export const dynamic = "force-dynamic";
 const page = async () => {
   const userExist = await onAuthenticateuser();
   if (!userExist.user) {
@@ -132,4 +132,4 @@ const page = async () => {
 
 export default page;
 
-export const dynamic = "force-dynamic";
+
