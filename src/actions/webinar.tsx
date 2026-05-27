@@ -80,7 +80,8 @@ export const createWebinar = async(formData:WebinarFormState) => {
                 lockChat : formData.additionalInfo.lockChat || false,
                 couponCode: formData.additionalInfo.couponEnabled? formData.additionalInfo.couponCode : null,
                 couponEnabled: formData.additionalInfo.couponEnabled || false,
-                presenterId: presenterId,
+                // presenterId: presenterId ?? undefined,
+                presenterId : presenterId as string,
             },
          })
 
