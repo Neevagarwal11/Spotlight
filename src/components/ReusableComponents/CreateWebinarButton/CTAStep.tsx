@@ -8,8 +8,15 @@ import { X } from 'lucide-react'
 import React, { useState } from 'react'
 
 
+type CTAStepProps = {
+  assistants: any[]
+  stripeProducts: any[]
+}
 
-const CTAStep = () => {
+const CTAStep = ({
+  assistants,
+  stripeProducts,
+}: CTAStepProps) => {
     const {formData , updateCTAFields , getStepValidationErrors , removeTag , addTag} = useWebinarStore()
     const [tagInput, setTagInput] = useState('')
 
