@@ -6,8 +6,11 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
     try{
         const searchParams = request.nextUrl.searchParams;
-        const code = searchParams.get("code");
-        const state = searchParams.get("state");
+        
+        console.log(searchParams);
+        const code = searchParams.get('code');
+        const state = searchParams.get('state');
+        
 
         if(!code || !state){
             console.log("Missing required parameters:" , {code , state})
