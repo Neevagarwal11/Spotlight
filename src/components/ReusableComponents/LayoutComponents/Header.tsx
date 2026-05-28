@@ -6,12 +6,15 @@ import { Button } from '@/components/ui/button';
 import { ArrowLeft, CloudLightning, Zap } from 'lucide-react';
 import PurpleIcon from '../Purpelicon/index';
 import CreateWebinarButton from '../CreateWebinarButton';
+import Stripe from 'stripe';
+import {StripeElements} from '../Stripe/StripeElements';
+import SubscriptionModal from '../SubscriptionModal';
 
 
-type Props={user : User}
+type Props={user : User , stripeProducts: Stripe.Product[] | []}
 
-// TODO : Stripe Subscriptions , assistant
-const Header = ({ user }: Props) => {
+// TODO :  assistant
+const Header = ({ user, stripeProducts }: Props) => {
     const pathname = usePathname();
     const router = useRouter();
 
@@ -34,8 +37,15 @@ const Header = ({ user }: Props) => {
                 <Zap/>
             </PurpleIcon>
             {/* TODO: Add stripe subscription and create webinar button */}
+            {user.subscription ? (
+            <CreateWebinarButton stripeProducts={stripeProducts} ></CreateWebinarButton>
+            ) : (
+                <StripeElements children={undefined}>
+                    <SubscriptionModal user={user} /> 
+                </StripeElements>
+            )}
 
-            <CreateWebinarButton></CreateWebinarButton>
+
 
 
         </div>

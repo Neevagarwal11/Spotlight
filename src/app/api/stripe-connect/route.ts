@@ -7,7 +7,6 @@ export async function GET(request: NextRequest) {
     try{
         const searchParams = request.nextUrl.searchParams;
         
-        console.log(searchParams);
         const code = searchParams.get('code');
         const state = searchParams.get('state');
         
