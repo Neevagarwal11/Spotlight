@@ -50,9 +50,9 @@ export const getAllProductsFromStripe = async() =>{
 export const onGetStripeClientSecret = async (email:string , userId: string) =>{
     try{
         let customer : Stripe.Customer 
-        const existingCutomer = await stripe.customers.list({email:email});
-        if(existingCutomer.data.length >0){
-            customer = existingCutomer.data[0]
+        const existingCustomer = await stripe.customers.list({email:email});
+        if(existingCustomer.data.length >0){
+            customer = existingCustomer.data[0]
         }else{
             customer = await stripe.customers.create({
                 email:email,
@@ -69,9 +69,10 @@ export const onGetStripeClientSecret = async (email:string , userId: string) =>{
             },
         })
 
+        const priceId = process.env.SUBSCRIPTION_PRICE_ID
         const subscription = await stripe.subscriptions.create({
             customer: customer.id,
-            items: [{price: `process.env.subscriptionPriceId`}],
+            items: [{price: priceId}],
             payment_behavior: 'default_incomplete',
             expand: ['latest_invoice.payment_intent'],
             metadata:{
@@ -94,5 +95,22 @@ export const onGetStripeClientSecret = async (email:string , userId: string) =>{
             message: "Failed to create subscription "
         }
 
+    }
+}
+
+
+
+export const updateSubscription = async(subscription: Stripe.Subscription) => {
+    try{
+        const userId = subscription.metadata.userId
+
+        await prismaClient.user.update({
+            where:{id: userId}, 
+            data:{
+                subscription: subscription.status === 'active' ? true : false,
+            },
+        })
+    }catch(error){
+        console.log('Error updating subscription' , error )
     }
 }

@@ -1,4 +1,5 @@
 "use client";
+
 import { onGetStripeClientSecret } from "@/actions/stripe";
 import { Button } from "@/components/ui/button";
 import {
@@ -45,7 +46,7 @@ const index = ({ user }: Props) => {
             throw new Error('Card element not found')
         }
 
-        const {error} = await stripe.confirmCardPayment(intent.secret, {
+        const {error, paymentIntent} = await stripe.confirmCardPayment(intent.secret, {
             payment_method:{
                 card: cardElement
             }
@@ -54,12 +55,14 @@ const index = ({ user }: Props) => {
         if(error){
             throw new Error(error.message)
         }
-        console.log('Payment successful' , paymentIntent)
         router.refresh()
+        toast.success('Subscription successful!')
 
     }catch(error){
         console.log('SUBSCRIPTON --->' , error)
         toast.error('Failed to update subscription')
+    }finally{
+        setLoading(false)
     }
     
   }
@@ -76,6 +79,24 @@ const index = ({ user }: Props) => {
         <DialogHeader>
           <DialogTitle>Spotlight Subscription</DialogTitle>
         </DialogHeader>
+
+
+        <CardElement
+            options={{
+                style:{
+                    base:{
+                        fontSize:'16px',
+                        color:"#B4B0AE",
+                        '::placeholder' : {
+                            color:"#B4B0AE"
+                        }
+                    }
+                }
+            }}
+            className="border-[1px] outline-none rounded-lg p-3 w-full"
+        />
+
+
         <DialogFooter className="gap-4 items-center">
           <DialogClose
             className="w-full sm:w-auto border border-border rounded-md px-3 p-2"
