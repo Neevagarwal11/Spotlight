@@ -8,6 +8,7 @@ import MultiStepForm from '../CreateWebinarButton/MultiStepForm'
 import CTAStep from './CTAStep'
 import AdditionalInfoStep from './AdditionalInfoStep'
 import { Stripe } from 'stripe'
+import SuccessStep from './SuccessStep'
 
 type Props = {
     stripeProducts: Stripe.Product[] | []
@@ -15,7 +16,7 @@ type Props = {
 
 const CreateWebinarButton = ({stripeProducts}: Props) => {
 
-    const {isModalOpen , setModalOpen ,isComplete , setIsComplete} = useWebinarStore();
+    const {isModalOpen , setModalOpen ,isComplete , setIsComplete , resetForm} = useWebinarStore();
 
     const steps = [
         {
@@ -49,6 +50,10 @@ const CreateWebinarButton = ({stripeProducts}: Props) => {
         )
     }
 
+    const handleCreateNew= () => {
+        resetForm()
+    }
+
   return (
 
     <Dialog open={isModalOpen} onOpenChange={setModalOpen}>
@@ -61,7 +66,11 @@ const CreateWebinarButton = ({stripeProducts}: Props) => {
         <DialogContent className='sm:max-w-[900px] p-0 bg-transparent border-none'>
             {isComplete? <div className='bg-muted text-primary rounded-lg overflow-hidden'>
                 <DialogTitle className='sr-only'>Webinar Created</DialogTitle>
-                {/* <SuccessStep></SuccessStep> */}
+                <SuccessStep
+                    webinarLink={webinarLink}
+                    onCreateNew = {handleCreateNew}
+                />
+
             </div> : 
                 <>
                     <DialogTitle className='sr-only'>Create Webinar</DialogTitle>

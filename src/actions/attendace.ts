@@ -110,3 +110,90 @@ export const getWebinarAttendance = async (webinarId:string, options: {includeUs
     }
 
 }
+
+export const registerAttendee = async ({
+    webinarId, email , name , phone
+}: {
+    webinarId:string
+    email:string
+    name:string
+    phone:string
+}) => {
+     try{
+        if(!webinarId || !email){
+            return{
+                success: false,
+                status: 400,
+                message: 'Missing required parameters'
+            }
+        }
+
+        const webinar = await prismaClient.webinar.findUnique({
+            where:{id:webinarId}
+        })
+        if(!webinar){
+            return {success: false, status:400 , message: "Webinar not found "}
+        }
+
+        let attendee = await prismaClient.attendee.findUnique({
+            where:{email}
+        })
+
+        if(!attendee){
+            attendee = await prismaClient.attendee.create({
+                data:{email,name}
+            })
+        }
+
+        const existingAttendance = await prismaClient.attendance.findFirst({
+            where:{
+                attendeeId: attendee.id,
+                webinarId:webinarId
+            },
+            include:{
+                user: true,
+            }
+        })
+
+        if(existingAttendance){
+            return {
+                success: true,
+                status : 200 ,
+                data: existingAttendance,
+                message: 'You are already registered for this webinar'
+            }
+        }
+
+        // Create attendance record
+        const attendance = await prismaClient.attendance.create({
+            data:{
+                attendedType: AttendedTypeEnum.REGISTERED,
+                attendeeId: attendee.id,
+                webinarId: webinarId
+            }, 
+            include: {
+                user: true
+            }
+        })
+
+        revalidatePath(`/${webinarId}`)
+
+        return{
+            success: true,
+            status:200,
+            data: attendance,
+            message: 'Successfully Registered'
+        }
+
+
+
+     }catch(error){
+        console.log('Registration Error' , error)
+        return{
+            success: false,
+            status: 500 ,
+            error: error,
+            message: 'Something went wrong'
+        }
+     }
+}
