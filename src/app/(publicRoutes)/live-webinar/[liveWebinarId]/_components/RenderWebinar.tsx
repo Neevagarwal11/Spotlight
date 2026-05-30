@@ -6,11 +6,13 @@ import WebinarUpcomingState from "./UpcomingWebinar/WebinarUpcomingState";
 import { usePathname, useRouter } from "next/navigation";
 import { useAttendeeStore } from "@/store/useAttendeeStore";
 import { toast } from "sonner";
+import LiveStreamState from "./LiveWebinarState/LiveStreamState";
+import { WebinarWithPresenter } from "@/lib/type";
 
 type Props = {
   error: string | undefined;
   user: User | null;
-  webinar: Webinar;
+  webinar: WebinarWithPresenter;
   apiKey: string;
   token: string;
   callId: string;
@@ -48,8 +50,7 @@ const RenderWebinar = ({
         // "TODO: ADD live Stream component & webinar stuffs"
         <React.Fragment>
             {user?.id === webinar.presenterId? (
-                // <LiveStreamState apiKey={apiKey} token={token} callId={callId} /> 
-                "Live Stream for presenter"
+                <LiveStreamState apiKey={apiKey} token={token} callId={callId} webinar ={webinar} user={user} /> 
             ) : attendee? (
                 // <Participant apiKey={apiKey} token={token} callId={callId} /> 
                 "Live Stream for participant"

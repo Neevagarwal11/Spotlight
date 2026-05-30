@@ -33,9 +33,9 @@ const page = async ({params,searchParams} : Props) => {
 
     // TODO: Create API keys
 
-    const apikey = 'process.env.STREAM_API_KEY' as string
-    const token = 'process.env.STREAM_TOKEN' as string
-    const callId = 'process.env.STREAM_CALL_ID' as string
+    const apikey = process.env.NEXT_PUBLIC_STREAM_API_KEY as string
+    const token = process.env.STREAM_TOKEN as string
+    const callId = process.env.STREAM_CALL_TO as string
 
 
   return (
